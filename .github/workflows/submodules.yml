@@ -19,7 +19,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        token: ${{ secrets.CI_TOKEN }}
+        token: ${{ secrets.haiiron_CI }}
         submodules: true
 
     # Update references
