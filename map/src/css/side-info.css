@@ -1,0 +1,30 @@
+.bg{
+  background-color: rgb(228, 228, 228);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.info{
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  top: 10%;
+
+  width: 70%;
+  height: 80%;
+  background-color: rgb(255, 230, 197);
+}
+
+.info-grid1{
+  display: grid;
+  grid-template-columns: 50% 50%;
+
+}
+
+.targetinfo{
+  width: 100%;
+  height: 70%;
+  overflow: scroll;
+  
+}

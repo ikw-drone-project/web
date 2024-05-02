@@ -35,35 +35,35 @@ export default function MapComponent() {
 
   return (
     <Map
-      id="map"
-      className="kakaomap"
-      center={center}
-      style={{ width: "100%", height: "100vh" }}
-      level={2}
-    >
-      <MapTypeId type={"TERRAIN"} />
-      {markers.map((marker, index) => (
-        <React.Fragment key={`marker-${index}`}>
-          <MapMarker
-            position={{ lat: marker.lat, lng: marker.lng }}
-            title={marker.name} // 마커 제목 설정
-            clickable={true} // 마커를 클릭할 수 있도록 설정
-            onClick={() => {
-              setCenter({ lat: marker.lat, lng: marker.lng }); // 지도의 중심을 마커의 위치로 이동
-              setInfoWindowIndex(index); // 클릭된 마커의 인덱스를 설정하여 정보 창을 엶
-            }}
-          />
-          {infoWindowIndex === index && (
-            <MapInfoWindow
+        id="map"
+        className="kakaomap"
+        center={center}
+        style={{ width: "100%", height: "100vh" }}
+        level={2}
+      >
+        <MapTypeId type={"TERRAIN"} />
+        {markers.map((marker, index) => (
+          <React.Fragment key={`marker-${index}`}>
+            <MapMarker
               position={{ lat: marker.lat, lng: marker.lng }}
-              removable={true}
-              onCloseClick={() => setInfoWindowIndex(null)} // 인포윈도우 닫기
-            >
-              {marker.name}
-            </MapInfoWindow>
-          )}
-        </React.Fragment>
-      ))}
+              title={marker.name} // 마커 제목 설정
+              clickable={true} // 마커를 클릭할 수 있도록 설정
+              onClick={() => {
+                setCenter({ lat: marker.lat, lng: marker.lng }); // 지도의 중심을 마커의 위치로 이동
+                setInfoWindowIndex(index); // 클릭된 마커의 인덱스를 설정하여 정보 창을 엶
+              }}
+            />
+            {infoWindowIndex === index && (
+              <MapInfoWindow
+                position={{ lat: marker.lat, lng: marker.lng }}
+                removable={true}
+                onCloseClick={() => setInfoWindowIndex(null)} // 인포윈도우 닫기
+              >
+                {marker.name}
+              </MapInfoWindow>
+            )}
+          </React.Fragment>
+        ))}
     </Map>
   );
 }

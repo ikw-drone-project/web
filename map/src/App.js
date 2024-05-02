@@ -1,11 +1,15 @@
 import MapComponent from './components/map'
+import SideInFoComponent from './components/side-info'
 
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <MapComponent></MapComponent>
+      <div className='grid'>
+        <MapComponent></MapComponent>
+        <SideInFoComponent></SideInFoComponent>
+      </div>
     </div>
   );
 }
