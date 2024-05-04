@@ -1,3 +1,4 @@
+// App.js
 import MapComponent from './components/map'
 import SideInFoComponent from './components/side-info'
 

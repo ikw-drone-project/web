@@ -1,3 +1,5 @@
+// map.js
+
 import React, { useState, useEffect } from 'react';
 import { Map, MapMarker, MapInfoWindow, MapTypeId } from "react-kakao-maps-sdk"; // MapInfoWindow 추가
 import useKakaoLoader from "./useKakaoLoader";
@@ -41,7 +43,7 @@ export default function MapComponent() {
         style={{ width: "100%", height: "100vh" }}
         level={2}
       >
-        <MapTypeId type={"TERRAIN"} />
+        <MapTypeId type={"SKYVIEW"} />
         {markers.map((marker, index) => (
           <React.Fragment key={`marker-${index}`}>
             <MapMarker
