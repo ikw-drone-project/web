@@ -1,39 +1,69 @@
-// map.js
-
 import React, { useState, useEffect } from 'react';
-import { Map, MapMarker, MapInfoWindow, MapTypeId } from "react-kakao-maps-sdk"; // MapInfoWindow 추가
+import { Map, MapMarker, MapInfoWindow, MapTypeId } from "react-kakao-maps-sdk";
 import useKakaoLoader from "./useKakaoLoader";
 import '../css/map.css';
 
-export default function MapComponent() {
+export default function MapComponent({ selectedMarker, setSelectedMarker }) {
   useKakaoLoader();
 
   const [center, setCenter] = useState({ lat: 36.167723, lng: 128.467684 });
   const [markers, setMarkers] = useState([]);
-  const [infoWindowIndex, setInfoWindowIndex] = useState(null); // 클릭된 마커의 인덱스
+  const [infoWindowIndex, setInfoWindowIndex] = useState(null);
+  let previousData = []; // 이전 데이터를 저장하는 배열
 
   useEffect(() => {
-    async function fetchDroneData() {
+    const fetchDroneData = async () => {
       try {
         const response = await fetch('http://localhost:3003/drone-data');
         const data = await response.json();
-        // 데이터를 상태로 설정하는 로직
-        const newMarkers = data.map((item, index) => ({
-          lat: item.Lat,
-          lng: item.Lng,
-          name: `${index + 1}번째 타겟`
-        }));
-        setMarkers(newMarkers);
-        // 데이터가 있다면, 첫 번째 데이터를 중심으로 지도를 설정합니다.
-        if (data.length > 0) {
-          setCenter({ lat: data[0].Lat, lng: data[0].Lng });
+        // 새로운 타겟이 추가된 경우에만 상태 업데이트
+        if (JSON.stringify(previousData) !== JSON.stringify(data)) {
+          const newMarkers = data.map((item, index) => ({
+            lat: item.Lat,
+            lng: item.Lng,
+            name: `${index + 1}번째 타겟`
+          }));
+          setMarkers(newMarkers); // 마커 상태를 업데이트
+          if (data.length > 0) {
+            setCenter({ lat: data[0].Lat, lng: data[0].Lng });
+          }
+
+          // 마커를 업데이트 한 후 새로운 타겟에 대한 알림 처리
+          // 새로 추가된 타겟에 대한 알림 처리
+        if (previousData.length < data.length) {
+          const newTargets = data.slice(previousData.length);
+          setTimeout(() => {
+            newTargets.forEach((item, index) => {
+              // 이 부분을 수정하여 정확한 인덱스를 계산하고 올바른 타겟 이름을 알림
+              const targetIndex = previousData.length + index; // 새 타겟의 인덱스 계산
+              alert(`${targetIndex}번째 타겟이 발견되었습니다`);
+            });
+          }, 100);
+        }
+
+
+          previousData = data; // 현재 데이터를 이전 데이터로 저장
         }
       } catch (error) {
         console.error("Failed to fetch drone data:", error);
       }
-    }
-    fetchDroneData();
+    };
+
+    // 데이터 변경 확인을 위해 주기적으로 서버 데이터 확인
+    const intervalId = setInterval(fetchDroneData, 2000); // 2초마다 확인
+
+    return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 해제
   }, []);
+
+  useEffect(() => {
+    if (selectedMarker) {
+      setCenter({ lat: selectedMarker.lat, lng: selectedMarker.lng });
+      const markerIndex = markers.findIndex(marker => marker.lat === selectedMarker.lat && marker.lng === selectedMarker.lng);
+      if (markerIndex !== -1) {
+        setInfoWindowIndex(markerIndex);
+      }
+    }
+  }, [selectedMarker, markers]);
 
   return (
     <Map
@@ -48,18 +78,19 @@ export default function MapComponent() {
           <React.Fragment key={`marker-${index}`}>
             <MapMarker
               position={{ lat: marker.lat, lng: marker.lng }}
-              title={marker.name} // 마커 제목 설정
-              clickable={true} // 마커를 클릭할 수 있도록 설정
+              title={marker.name}
+              clickable={true}
               onClick={() => {
-                setCenter({ lat: marker.lat, lng: marker.lng }); // 지도의 중심을 마커의 위치로 이동
-                setInfoWindowIndex(index); // 클릭된 마커의 인덱스를 설정하여 정보 창을 엶
+                setCenter({ lat: marker.lat, lng: marker.lng });
+                setInfoWindowIndex(index);
+                setSelectedMarker(marker);
               }}
             />
             {infoWindowIndex === index && (
               <MapInfoWindow
                 position={{ lat: marker.lat, lng: marker.lng }}
                 removable={true}
-                onCloseClick={() => setInfoWindowIndex(null)} // 인포윈도우 닫기
+                onCloseClick={() => setInfoWindowIndex(null)}
               >
                 {marker.name}
               </MapInfoWindow>

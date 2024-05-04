@@ -1,5 +1,5 @@
 .bg{
-  background-color: rgb(228, 228, 228);
+  background-color: rgb(220, 220, 220);
   width: 100%;
   height: 100%;
   position: relative;
@@ -13,7 +13,7 @@
 
   width: 90%;
   height: 80%;
-  background-color: rgb(255, 230, 197);
+  background-color: rgb(255, 255, 255);
 }
 
 .info-grid1{
@@ -40,4 +40,8 @@
 
 .targetnum span{
   border: solid 2px black;
+}
+
+.cursor{
+  cursor: pointer;
 }

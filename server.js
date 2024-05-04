@@ -15,10 +15,10 @@ app.use(express.static(buildPath));
 // 데이터베이스 연결 설정
 const connection = mysql.createConnection({
   host: '127.0.0.1',    // 데이터베이스 호스트 주소
-  port: '3308',          // MySQL 서버의 포트 번호
+  port: '',          // MySQL 서버의 포트 번호
   user: 'root',          // 사용자 이름
-  password: 'rms13597123!@#', // 비밀번호
-  database: 'drone'      // 데이터베이스 이름
+  password: '', // 비밀번호
+  database: ''      // 데이터베이스 이름
 });
 
 // 데이터베이스에 연결합니다.
