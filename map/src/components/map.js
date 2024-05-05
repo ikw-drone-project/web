@@ -1,3 +1,4 @@
+// map.js
 import React, { useState, useEffect } from 'react';
 import { Map, MapMarker, MapInfoWindow, MapTypeId } from "react-kakao-maps-sdk";
 import useKakaoLoader from "./useKakaoLoader";
@@ -19,13 +20,13 @@ export default function MapComponent({ selectedMarker, setSelectedMarker }) {
         // 새로운 타겟이 추가된 경우에만 상태 업데이트
         if (JSON.stringify(previousData) !== JSON.stringify(data)) {
           const newMarkers = data.map((item, index) => ({
-            lat: item.Lat,
-            lng: item.Lng,
+            lat: item.latitude,
+            lng: item.longitude,
             name: `${index + 1}번째 타겟`
           }));
           setMarkers(newMarkers); // 마커 상태를 업데이트
           if (data.length > 0) {
-            setCenter({ lat: data[0].Lat, lng: data[0].Lng });
+            setCenter({ lat: data[0].latitude, lng: data[0].longitude });
           }
 
           // 마커를 업데이트 한 후 새로운 타겟에 대한 알림 처리

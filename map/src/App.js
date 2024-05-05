@@ -1,3 +1,4 @@
+// App.js
 import React, { useState } from 'react';
 import MapComponent from './components/map';
 import SideInFoComponent from './components/side-info';

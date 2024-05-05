@@ -1,3 +1,4 @@
+// side-info.js
 import { useState, useEffect } from 'react';
 import '../css/side-info.css';
 
@@ -17,8 +18,8 @@ export default function SideInFoComponent({ setSelectedMarker }) {
         if (JSON.stringify(previousTargets) !== JSON.stringify(data)) {
           const newTargets = data.map((item, index) => ({
             num: index + 1,
-            lat: item.Lat,
-            lng: item.Lng,
+            lat: item.latitude,
+            lng: item.longitude,
           }));
           setTargets(newTargets);
           previousTargets = data; // 현재 데이터를 이전 데이터로 저장
