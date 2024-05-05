@@ -50,7 +50,7 @@ export default function MapComponent({ selectedMarker, setSelectedMarker }) {
     };
 
     // 데이터 변경 확인을 위해 주기적으로 서버 데이터 확인
-    const intervalId = setInterval(fetchDroneData, 2000); // 2초마다 확인
+    const intervalId = setInterval(fetchDroneData, 1000); // 2초마다 확인
 
     return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 해제
   }, []);

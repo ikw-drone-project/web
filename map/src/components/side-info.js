@@ -29,7 +29,7 @@ export default function SideInFoComponent({ setSelectedMarker }) {
     };
 
     fetchTargets();
-    const intervalId = setInterval(fetchTargets, 2000); // 2초마다 데이터 갱신
+    const intervalId = setInterval(fetchTargets, 1000); // 2초마다 데이터 갱신
 
     return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 해제
   }, []);
